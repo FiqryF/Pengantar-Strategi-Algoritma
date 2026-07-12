@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include <GL/freeglut.h>
 
@@ -10,26 +11,14 @@
 
 using namespace std;
 
-const int NUM_NODES = 5;
-const int NUM_COLORS = 3;
-
 Graph graph;
 bool colorExist = false;
-int colorList[NUM_NODES];
+int* colorList = NULL;
 
-// Adjacency status matrix untuk graf Gambar 7.5.
-// Nilai 1 berarti dua simpul bertetangga, nilai 0 berarti tidak bertetangga.
-int adjStatus[NUM_NODES][NUM_NODES] = {
-    {0, 1, 1, 1, 0},
-    {1, 0, 1, 0, 1},
-    {1, 1, 0, 0, 0},
-    {1, 0, 0, 0, 1},
-    {0, 1, 0, 1, 0}
-};
-
-bool assignColor(int nodeIdx, int colorIdx) {
-    for (int i = 0; i < NUM_NODES; ++i) {
-        if (adjStatus[nodeIdx][i] == 1 && colorList[i] == colorIdx) {
+bool assignColor(int nodeIdx, const vector<vector<int> >& adjacency, int colorIdx) {
+    for (int i = 0; i < static_cast<int>(adjacency[nodeIdx].size()); ++i) {
+        int neighbor = adjacency[nodeIdx][i];
+        if (colorList[neighbor] == colorIdx) {
             return false;
         }
     }
@@ -37,16 +26,16 @@ bool assignColor(int nodeIdx, int colorIdx) {
     return true;
 }
 
-bool graphColoringRecursive(int nodeIdx) {
-    if (nodeIdx == NUM_NODES) {
+bool graphColoringRecursive(const vector<vector<int> >& adjacency, int numNodes, int numColors, int nodeIdx) {
+    if (nodeIdx == numNodes) {
         return true;
     }
 
-    for (int colorIdx = 1; colorIdx <= NUM_COLORS; ++colorIdx) {
-        if (assignColor(nodeIdx, colorIdx)) {
+    for (int colorIdx = 1; colorIdx <= numColors; ++colorIdx) {
+        if (assignColor(nodeIdx, adjacency, colorIdx)) {
             colorList[nodeIdx] = colorIdx;
 
-            if (graphColoringRecursive(nodeIdx + 1)) {
+            if (graphColoringRecursive(adjacency, numNodes, numColors, nodeIdx + 1)) {
                 return true;
             }
 
@@ -57,23 +46,23 @@ bool graphColoringRecursive(int nodeIdx) {
     return false;
 }
 
-void graphColoring() {
-    for (int i = 0; i < NUM_NODES; ++i) {
+void graphColoring(int numColors) {
+    int numNodes = graph.getNumNodes();
+    colorList = new int[numNodes];
+
+    for (int i = 0; i < numNodes; ++i) {
         colorList[i] = 0;
     }
 
-    colorExist = graphColoringRecursive(0);
+    colorExist = graphColoringRecursive(graph.getAdjNodes(), numNodes, numColors, 0);
 
     if (!colorExist) {
         cout << "Tidak ada solusi pewarnaan yang mungkin" << endl;
         return;
     }
 
-    cout << "Post-Test Praktikum 7" << endl;
-    cout << "Representasi graf: adjacency status matrix" << endl;
     cout << "Solusi pewarnaannya yaitu:" << endl;
-
-    for (int i = 0; i < NUM_NODES; ++i) {
+    for (int i = 0; i < numNodes; ++i) {
         cout << "Node " << i << " = warna " << colorList[i] << endl;
     }
 }
@@ -87,7 +76,7 @@ void drawResult() {
         drawNodes(graph);
     }
 
-    drawText(-0.92f, 0.88f, "Post-Test Praktikum 7 - Adjacency Status Matrix", Vec3(1.0f, 1.0f, 1.0f));
+    drawText(-0.92f, 0.88f, "Backtracking Graph Coloring - 3 Warna", Vec3(1.0f, 1.0f, 1.0f));
     drawText(-0.92f, 0.80f, "1=Merah, 2=Hijau, 3=Biru", Vec3(1.0f, 1.0f, 1.0f));
 }
 
@@ -119,10 +108,13 @@ void buildGraphFigure75() {
 
 int main(int argc, char** argv) {
     buildGraphFigure75();
-    graphColoring();
+
+    int numColors = 3;
+    graphColoring(numColors);
 
     bool noGui = argc > 1 && string(argv[1]) == "--nogui";
     if (noGui) {
+        delete[] colorList;
         return 0;
     }
 
@@ -130,11 +122,12 @@ int main(int argc, char** argv) {
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
     glutInitWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
     glutInitWindowPosition(100, 100);
-    glutCreateWindow("Post-Test Praktikum 7 - Graph Coloring");
+    glutCreateWindow("Praktikum 7 - Backtracking Graph Coloring");
     initView();
     glutDisplayFunc(displayGraph);
     glutReshapeFunc(reshapeView);
     glutMainLoop();
 
+    delete[] colorList;
     return 0;
 }
