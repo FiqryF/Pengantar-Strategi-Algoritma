@@ -1,27 +1,13 @@
-# Post-Test Praktikum 6 - Versi Modifikasi
+# Post-Test Praktikum 6 - BFS dan DFS
 
 ## Soal
 
 1. Terapkan algoritma BFS dan DFS pada graf berarah di Gambar 6.4 mulai dari simpul ke-0 dengan memodifikasi kode tester praktikum BFS dan DFS yang sudah dibuat.
 2. Analisis apakah hasil dari program sama dengan jawaban pre-test.
 
-## Bentuk Modifikasi
+## Graf yang Digunakan
 
-Kode praktikum asli tidak perlu diubah. Untuk post-test, dibuat file baru:
-
-```text
-tugas06.cpp
-```
-
-Modifikasi dilakukan pada bagian kode tester, yaitu mengganti data graf menjadi graf Gambar 6.4.
-
-Representasi graf yang digunakan adalah **adjacency list**, karena BFS dan DFS bekerja dengan cara membaca daftar tetangga dari node yang sedang dikunjungi.
-
-Pada versi modifikasi ini, posisi node pada grafik juga dibuat berbeda dari tampilan praktikum. Perubahan posisi node hanya mengubah tampilan visual, bukan mengubah adjacency list atau hasil traversal.
-
-## Graf Gambar 6.4
-
-Adjacency list:
+Graf Gambar 6.4 direpresentasikan menggunakan adjacency list.
 
 ```text
 0 -> 1, 2, 3
@@ -32,21 +18,7 @@ Adjacency list:
 5 -> 2
 ```
 
-Jika ditulis sebagai edge:
-
-```text
-0 -> 1
-0 -> 2
-0 -> 3
-1 -> 4
-2 -> 1
-3 -> 4
-3 -> 5
-4 -> 5
-5 -> 2
-```
-
-Traversal dimulai dari:
+Traversal dimulai dari node:
 
 ```text
 0
@@ -65,53 +37,39 @@ DFS mulai dari node 0
 0 1 4 5 2 3
 ```
 
-## Hasil BFS
-
-BFS mengunjungi node berdasarkan level atau jarak terdekat dari node awal.
-
-Urutan BFS:
+Hasil BFS:
 
 ```text
 0 1 2 3 4 5
 ```
 
-Penjelasan:
-
-```text
-Node 0 dikunjungi lebih dulu.
-Tetangga langsung node 0 adalah 1, 2, dan 3.
-Setelah itu BFS melanjutkan ke node 4 dan 5.
-```
-
-## Hasil DFS
-
-DFS mengunjungi node sedalam mungkin sebelum kembali ke cabang lain.
-
-Urutan DFS:
+Hasil DFS:
 
 ```text
 0 1 4 5 2 3
 ```
 
-Penjelasan:
-
-```text
-DFS mulai dari 0.
-Dari 0 masuk ke 1.
-Dari 1 masuk ke 4.
-Dari 4 masuk ke 5.
-Dari 5 masuk ke 2.
-Setelah cabang tersebut selesai, DFS kembali dan mengunjungi 3.
-```
-
 ## Perbandingan dengan Pre-Test
 
-Hasil pre-test:
+Hasil program sama dengan jawaban pre-test.
 
 ```text
-BFS = 0 1 2 3 4 5
-DFS = 0 1 4 5 2 3
+Pre-test BFS  = 0 1 2 3 4 5
+Program BFS   = 0 1 2 3 4 5
+
+Pre-test DFS  = 0 1 4 5 2 3
+Program DFS   = 0 1 4 5 2 3
 ```
+
+## Perbedaan BFS dan DFS
+
+BFS mengunjungi node berdasarkan level. Dari node `0`, BFS mengunjungi semua tetangga langsung terlebih dahulu, yaitu `1`, `2`, dan `3`, kemudian lanjut ke node berikutnya.
+
+DFS mengunjungi node sedalam mungkin terlebih dahulu. Dari node `0`, DFS masuk ke `1`, lalu `4`, lalu `5`, lalu `2`, sebelum akhirnya kembali dan mengunjungi `3`.
+
+## Kesimpulan
+
+Algoritma BFS dan DFS berhasil diterapkan pada graf Gambar 6.4.
 
 Hasil program:
 
@@ -120,53 +78,4 @@ BFS = 0 1 2 3 4 5
 DFS = 0 1 4 5 2 3
 ```
 
-Hasil program sama dengan jawaban pre-test.
-
-## Grafik Baru
-
-Grafik baru dibuat melalui file:
-
-```text
-tugas06.cpp
-tugas06.exe
-```
-
-Tampilan grafik menampilkan dua panel:
-
-```text
-Panel atas  : BFS
-Panel bawah : DFS
-```
-
-Warna jalur traversal dibuat berbeda:
-
-```text
-BFS = biru muda
-DFS = oranye
-```
-
-Kedua panel memakai graf yang sama, yaitu graf Gambar 6.4. Perbedaannya ada pada jalur traversal yang di-highlight.
-
-Selain itu, bentuk visual graf dibuat berbeda dari praktikum dengan mengubah posisi node pada tampilan. Walaupun posisi node berbeda, hubungan antar node tetap sama:
-
-```text
-0 -> 1, 2, 3
-1 -> 4
-2 -> 1
-3 -> 4, 5
-4 -> 5
-5 -> 2
-```
-
-## Kesimpulan
-
-Post-test Praktikum 6 berhasil dikerjakan dengan memodifikasi kode tester menggunakan adjacency list.
-
-Hasil akhir:
-
-```text
-BFS = 0 1 2 3 4 5
-DFS = 0 1 4 5 2 3
-```
-
-Hasil tersebut sesuai dengan analisis manual pada pre-test.
+Hasil tersebut sama dengan hasil analisis manual pada pre-test.

@@ -103,11 +103,13 @@ void displayGraph() {
 void buildGraphFigure75() {
     graph.setIsDirected(false);
 
-    graph.addNode(-0.45f, 0.00f);  // 0
-    graph.addNode(0.45f, 0.00f);   // 1
-    graph.addNode(0.00f, -0.55f);  // 2
-    graph.addNode(-0.45f, 0.55f);  // 3
-    graph.addNode(0.45f, 0.55f);   // 4
+    // Posisi node dibuat berbeda dari tampilan praktikum.
+    // Hubungan antar simpul tetap mengikuti adjacency status matrix Gambar 7.5.
+    graph.addNode(-0.78f, 0.18f);  // 0
+    graph.addNode(0.18f, 0.66f);   // 1
+    graph.addNode(0.76f, -0.06f);  // 2
+    graph.addNode(-0.26f, -0.58f); // 3
+    graph.addNode(0.62f, -0.72f);  // 4
 
     graph.addEdge(0, 1);
     graph.addEdge(0, 2);

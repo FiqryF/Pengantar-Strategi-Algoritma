@@ -1,25 +1,13 @@
-# Post-Test Praktikum 7 - Versi Modifikasi
+# Post-Test Praktikum 7 - Backtracking Graph Coloring
 
 ## Soal
 
 1. Terapkan algoritma backtracking pada graf di Gambar 7.5 untuk pewarnaan simpul menggunakan 3 warna dengan memodifikasi kode tester praktikum backtracking yang sudah dibuat.
 2. Analisis apakah hasil dari program sama dengan jawaban pre-test.
 
-## Bentuk Modifikasi
+## Graf yang Digunakan
 
-Kode praktikum asli tidak perlu diubah. Untuk post-test, dibuat file baru:
-
-```text
-tugas.cpp
-```
-
-Modifikasi dilakukan dengan mengganti data graf menjadi graf Gambar 7.5 dan menggunakan **adjacency status matrix**.
-
-Adjacency status matrix dipilih karena graph coloring perlu mengecek apakah dua simpul bertetangga sebelum memberi warna.
-
-## Graf Gambar 7.5
-
-Sisi graf:
+Graf Gambar 7.5:
 
 ```text
 0 - 1
@@ -30,7 +18,7 @@ Sisi graf:
 4 - 1
 ```
 
-Adjacency status matrix:
+Graf direpresentasikan menggunakan adjacency status matrix:
 
 ```text
     0 1 2 3 4
@@ -41,19 +29,7 @@ Adjacency status matrix:
 4 | 0 1 0 1 0
 ```
 
-Dalam kode:
-
-```cpp
-int adjStatus[5][5] = {
-    {0, 1, 1, 1, 0},
-    {1, 0, 1, 0, 1},
-    {1, 1, 0, 0, 0},
-    {1, 0, 0, 0, 1},
-    {0, 1, 0, 1, 0}
-};
-```
-
-## Warna yang Digunakan
+Warna yang digunakan:
 
 ```text
 1 = Merah
@@ -86,28 +62,19 @@ Node 3 = Hijau
 Node 4 = Merah
 ```
 
-## Analisis
+## Perbandingan dengan Pre-Test
 
 Hasil program sama dengan jawaban pre-test.
 
-Pengecekan warna dilakukan dengan melihat adjacency status matrix. Jika `adjStatus[node][i] == 1`, maka node tersebut bertetangga dengan node `i`. Warna yang akan dipasang tidak boleh sama dengan warna node tetangganya.
-
-Contoh pengecekan:
-
 ```text
-Node 2 bertetangga dengan node 0 dan node 1.
-Node 0 memakai merah.
-Node 1 memakai hijau.
-Maka node 2 memakai biru.
-```
+Pre-test:
+0 = Merah
+1 = Hijau
+2 = Biru
+3 = Hijau
+4 = Merah
 
-## Kesimpulan
-
-Post-test Praktikum 7 berhasil dikerjakan dengan memodifikasi kode tester menggunakan adjacency status matrix.
-
-Hasil akhir:
-
-```text
+Program:
 0 = Merah
 1 = Hijau
 2 = Biru
@@ -115,4 +82,23 @@ Hasil akhir:
 4 = Merah
 ```
 
-Hasil tersebut valid karena tidak ada dua simpul bertetangga yang memiliki warna sama.
+## Analisis Perbedaan
+
+Tidak ada perbedaan hasil antara jawaban pre-test dan hasil program. Keduanya menghasilkan pewarnaan yang valid.
+
+Node yang bertetangga tidak memiliki warna yang sama:
+
+```text
+0 - 1 : Merah dan Hijau
+0 - 2 : Merah dan Biru
+1 - 2 : Hijau dan Biru
+0 - 3 : Merah dan Hijau
+3 - 4 : Hijau dan Merah
+4 - 1 : Merah dan Hijau
+```
+
+## Kesimpulan
+
+Algoritma backtracking berhasil diterapkan untuk pewarnaan graf Gambar 7.5 dengan 3 warna.
+
+Hasil program sama dengan jawaban pre-test dan valid karena tidak ada dua simpul bertetangga yang memiliki warna sama.
